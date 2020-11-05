@@ -1,19 +1,15 @@
-version: '3.5'
+version: '3.8'
 services:
   paymentservice:
-    image: paymentservice
-    container_name: payment-service
-      build:
-        context: ./payment
-        dockerfile: Dockerfile
-      ports:
-        - "9090:9090"
+    build:
+      context: ./payment
+      dockerfile: Dockerfile
+    ports:
+      - 9090:9090
 
   supportservice:
-    image: supportservice
-    container_name: support-service
-      build:
-        context: ./support
-        dockerfile: Dockerfile
-      ports:
-        - "8080:8080"
+    build:
+      context: ./support
+      dockerfile: Dockerfile
+  ports:
+    - 8080:8080
