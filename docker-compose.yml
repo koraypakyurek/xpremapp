@@ -5,11 +5,11 @@ services:
       context: ./payment
       dockerfile: Dockerfile
     ports:
-      - 9090:9090
+      - "9090:9090"
 
   supportservice:
     build:
       context: ./support
       dockerfile: Dockerfile
-  ports:
-    - 8080:8080
+    ports:
+      - "8080:8080"
