@@ -1,5 +1,6 @@
 package com.xprem.support.business.impl;
 
+import com.xprem.support.business.MailService;
 import com.xprem.support.business.MemberService;
 import com.xprem.support.client.PaymentClient;
 import com.xprem.support.entity.MemberEntity;
@@ -29,13 +30,15 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PaymentClient paymentClient;
+    private final MailService mailService;
     private MemberModelMapper memberModelMapper;
 
 
-    public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder, PaymentClient paymentClient) {
+    public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder, PaymentClient paymentClient, MailService mailService) {
         this.memberRepository = memberRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.paymentClient = paymentClient;
+        this.mailService = mailService;
         this.memberModelMapper = MemberModelMapper.INSTANCE;
     }
 
@@ -81,6 +84,7 @@ public class MemberServiceImpl implements MemberService {
                 memberEntity.get().setPremiumMemberStartDate(startDate);
                 memberEntity.get().setPremiumMemberEndDate(startDate.plus(PREMIUM_MEMBER_EXPIRE_DAYS, ChronoUnit.DAYS));
                 this.memberRepository.save(memberEntity.get());
+                this.mailService.sendMail(memberEntity.get().getMail());
             }
 
         } else {
