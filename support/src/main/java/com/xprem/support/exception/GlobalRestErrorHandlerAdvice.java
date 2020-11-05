@@ -28,7 +28,7 @@ public class GlobalRestErrorHandlerAdvice<T> {
         return apiError;
     }
 
-    @ExceptionHandler(value = {AlreadyMemberException.class})
+    @ExceptionHandler(value = {AccessDeniedException.class})
     public ResponseEntity<?> paymentRequired(RedirectAttributes redirectAttributes, MissingServletRequestParameterException e) {
         ApiResponse<Void> response = new ApiResponse();
         response.setSuccess(false);

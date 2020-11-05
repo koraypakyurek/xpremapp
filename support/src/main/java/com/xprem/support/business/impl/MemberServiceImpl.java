@@ -20,7 +20,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.xprem.support.constants.SecurityConstants.PREMIUM_MEMBER_EXPIRE_DAYS;
 
@@ -60,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
             throw new AlreadyMemberException();
         }
         this.memberRepository.save(this.memberModelMapper.modelToEntity(getMemberModel(signupModel)));
-        return null;
+        return signupModel.getMail();
     }
 
     private boolean doPayment(PaymentModel paymentModel) {
@@ -90,14 +89,34 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    /***
+     * Uyelık durumunu kontrol eder Premium uyelik suresı gecmisse veritabanınını guncellerç
+     * @param mail
+     * @return
+     */
+
     @Override
-    public MemberStatus checkMemberStatus(UUID memberId) {
-        return null;
+    public MemberType checkMemberStatus(String mail) {
+        Optional<MemberEntity> member = this.memberRepository.getByMail(mail);
+        if (member.isPresent()) {
+            if (member.get().getMemberType().equals(MemberType.PREMIUM)) {
+                if (member.get().getPremiumMemberEndDate() != null && member.get().getPremiumMemberEndDate().isBefore(new Date().toInstant())) {
+                    return MemberType.PREMIUM;
+                } else {
+                    member.get().setMemberType(MemberType.STANDART);
+                    member.get().setMemberStatus(MemberStatus.WAIT_FOR_PAYMENT);
+                    this.memberRepository.save(member.get());
+                    return MemberType.STANDART;
+                }
+            } else return MemberType.STANDART;
+
+        }
+        return MemberType.STANDART;
     }
 
     @Override
     public MemberModel getMemberByEmail(String email) {
-        if(email == null || email.isEmpty()){
+        if (email == null || email.isEmpty()) {
             return null;
         }
         Optional<MemberEntity> memberEntity = this.memberRepository.getByMail(email);

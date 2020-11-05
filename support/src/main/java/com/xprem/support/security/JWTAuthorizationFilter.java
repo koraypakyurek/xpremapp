@@ -1,8 +1,11 @@
 package com.xprem.support.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -13,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static com.xprem.support.constants.SecurityConstants.*;
 
@@ -40,11 +46,19 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user = Jwts.parser()
+            Claims claims= Jwts.parser()
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
+                    .getBody();
+
+            String user = claims.getSubject();
+//            List<GrantedAuthority> roles = (List<GrantedAuthority>) claims.get("ROLE");
+//            Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
+//            for(GrantedAuthority go : roles){
+//                grantedAuthorities.add()
+//            }
+            ArrayList<SimpleGrantedAuthority> role = new ArrayList<>();
+            role.add(new SimpleGrantedAuthority("ROLE_NORMAL"));
 
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());

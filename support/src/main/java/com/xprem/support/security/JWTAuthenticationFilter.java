@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.xprem.support.constants.SecurityConstants.*;
 
@@ -47,7 +49,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        String token = Jwts.builder()
+
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("ROLE",authResult.getAuthorities());
+         String token = Jwts.builder()
+                .setClaims(claims)
                 .setSubject(((User) authResult.getPrincipal()).getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRE_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())

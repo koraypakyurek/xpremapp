@@ -36,13 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-               // .antMatchers(MEMBER_SIGNUP_URL).permitAll()
+                .antMatchers(MEMBER_SIGNUP_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //http.exceptionHandling().accessDeniedHandler()
+//        http.exceptionHandling().accessDeniedHandler()
     }
 
     @Override

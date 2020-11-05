@@ -31,7 +31,7 @@ public class MemberRestService {
         return null;
     }
 
-//    @PreAuthorize("hasRole('ROLE_STANDART')")
+    @PreAuthorize("hasRole('NORMAL')")
     @PostMapping(MEMBER_PAYMENT_PATH)
     public ResponseEntity<?> doPayment(@RequestBody PaymentModel paymentModel) {
         this.memberService.payment(paymentModel);

@@ -8,7 +8,10 @@ public class SecurityConstants {
 
     public static final String PREMIUM_MEMBER_ROLE = "ROLE_PREMIUM";
     public static final String NORMAL_MEMBER_ROLE = "ROLE_NORMAL";
+    public static final String PAYMENT_REQUIRED_MESSAGE = "Ödeme gerekli";
 
     public static final int PREMIUM_MEMBER_EXPIRE_DAYS = 30;
+
+
 
 }

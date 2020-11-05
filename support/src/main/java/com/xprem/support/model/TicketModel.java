@@ -1,7 +1,5 @@
 package com.xprem.support.model;
 
-import java.util.UUID;
-
 public class TicketModel extends BaseModel {
 
     private String topic;
