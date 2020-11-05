@@ -2,6 +2,7 @@ package com.xprem.support.api;
 
 import com.xprem.support.model.TicketModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,7 @@ import static com.xprem.support.constants.ApiConstants.TICKET_POST_PATH;
 @RequestMapping(TICKET_CONTROLLER_PATH)
 public class TicketRestService {
 
-    @PreAuthorize("hasRole('ROLE_PREMIUM')")
+//    @Secured("hasRole('PREMIUM')")
     @PostMapping(TICKET_POST_PATH)
     public ResponseEntity<?> post(TicketModel ticketModel) {
         return ResponseEntity.ok().body("ok");

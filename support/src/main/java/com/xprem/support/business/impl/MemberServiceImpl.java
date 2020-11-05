@@ -64,7 +64,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private boolean doPayment(PaymentModel paymentModel) {
-        return  this.paymentClient.pay(paymentModel);
+        return this.paymentClient.pay(paymentModel);
     }
 
     @Override
@@ -97,6 +97,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberModel getMemberByEmail(String email) {
+        if(email == null || email.isEmpty()){
+            return null;
+        }
         Optional<MemberEntity> memberEntity = this.memberRepository.getByMail(email);
         if (memberEntity.isPresent()) {
             return this.memberModelMapper.entityToModel(memberEntity.get());

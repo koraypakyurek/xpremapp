@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableFeignClients
 @EnableDiscoveryClient
 @EnableJpaRepositories
-//@ComponentScan("com.xprem.support.*")
+@ComponentScan("com.xprem.support.*")
 //@EntityScan(basePackages = "com.xprem.support.entity")
 public class SupportApplication {
 

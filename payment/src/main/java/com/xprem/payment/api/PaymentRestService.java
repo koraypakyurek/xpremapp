@@ -4,6 +4,7 @@ import com.xprem.payment.business.PaymentBusinessService;
 import com.xprem.payment.model.PaymentModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class PaymentRestService {
     }
 
     @PostMapping(PAYMENT_API_PAYMENT_METHOD_PATH)
-    public boolean pay(PaymentModel paymentModel) {
+    public boolean pay(@RequestBody PaymentModel paymentModel) {
         return this.paymentBusinessService.pay(paymentModel);
     }
 }
